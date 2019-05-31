@@ -1,0 +1,154 @@
+[Config]
+Relative path=1
+Compilator.SaveAll=0
+Compilator.Capture=0
+Compilator.HideOutput=0
+DefaultCPIndex=0
+LogtoEnd=1
+DontOpen=0
+FileFormat=0
+[Project tree]
+CaSims
+	-SyntaxHighlighting
+	+CalC Scripts
+		+General
+			CaSignal_main.par
+			ZipFigures.bat
+			Readme.txt
+			runcalcscripts.sh
+		+figure 3 Constrained Model
+			CaSignal_Exp3Disc.par
+			CaSignal_Exp3Sphere.par
+		+figure 4 Endogenous Buffer and Geometry
+			CaSignal_Exp4DSphere.par
+			CaSignal_Exp4Disc.par
+			CaSignal_Exp4DDisc.par
+			CaSignal_Exp4Sphere.par
+		+figure 8 Endogenous Mobile Buffers
+			CaSignal_Exp8HbSphere.par
+			CaSignal_Exp8HbDisc.par
+			CaSignal_Exp8GbSphere.par
+			CaSignal_Exp8GbDisc.par
+			CaSignal_Exp8FSphere.par
+			CaSignal_Exp8FDisc.par
+			CaSignal_Exp8ESphere.par
+			CaSignal_Exp8EDisc.par
+			CaSignal_Exp8BSphere.par
+			CaSignal_Exp8BDisc.par
+			CaSignal_Exp8ASphere.par
+			CaSignal_Exp8ADisc.par
+		-figure SVREndoCalmod
+			CaSignal_SVREndoCalmodDiscTraces.par
+			CaSignal_SVREndoCalmodSphere.par
+			CaSignal_SVREndoCalmodSphereTraces.par
+			CaSignal_SVREndoCalmodDisc.par
+		-figure SVREndo
+			CaSignal_SVREndoDiscTraces.par
+			CaSignal_SVREndoDisc.par
+			CaSignal_SVREndoSphereTraces.par
+			CaSignal_SVREndoSphere.par
+		-figure XDiffKOn
+			CaSignal_XDiffKOnSphere.par
+			CaSignal_XDiffKOnDisc.par
+			CaSignal_XDiffKOnSphereTraces.par
+			CaSignal_XDiffKOnDiscTraces.par
+		-figure KdEndo
+			CaSignal_KdEndoSphere.par
+			CaSignal_KdEndoDisc.par
+			CaSignal_KdEndoSphereTraces.par
+			CaSignal_KdEndoDiscTraces.par
+		-figure DtGamma
+			CaSignal_DtGammaSphereII.par
+			CaSignal_DtGammaDiscII.par
+			CaSignal_DtGammaSphere.par
+			CaSignal_DtGammaDisc.par
+		-figure KOnKOff
+			CaSignal_KOnKOffSphere.par
+			CaSignal_KOnKOffDisc.par
+			CaSignal_KOnKOffDiscTraces.par
+			CaSignal_KOnKOffSphereTraces.par
+		-MatlabScripts
+			-Auxilary
+				-GraphicsSupport
+					MatlabScripts\Graphics\swapfigures.m
+					MatlabScripts\Graphics\RedistributeSubplots.m
+					MatlabScripts\Graphics\ScaleBar.m
+				-Functions
+			MatlabScripts\XDiffKOn_MergedAtomics.m
+			MatlabScripts\SVREndoCalmod_MergedAtomics.m
+			MatlabScripts\SVREndo_MergedAtomics.m
+			MatlabScripts\KOnKOff_MergedAtomics.m
+			MatlabScripts\KdEndo_MergedAtomics.m
+			MatlabScripts\FreeCalcium4EndoBufs_MergedAtomics.m
+			MatlabScripts\EndoKd_MergedAtomics.m
+			MatlabScripts\DtGammaII_MergedAtomics.m
+			MatlabScripts\DtGamma_MergedAtomics.m
+			MatlabScripts\CaSignal_XDiffKOnTraces.m
+			MatlabScripts\CaSignal_XDiffKOn.m
+			MatlabScripts\CaSignal_SVREndoTraces.m
+			MatlabScripts\CaSignal_SVREndoCalmodTraces.m
+			MatlabScripts\CaSignal_SVREndoCalmodCa.m
+			MatlabScripts\CaSignal_SVREndoCalmod.m
+			MatlabScripts\CaSignal_SVREndo.m
+			MatlabScripts\CaSignal_PreProcessDataSecondVarIsDyeTotal.m
+			MatlabScripts\CaSignal_PreProcessDataCa12.m
+			MatlabScripts\CaSignal_PreProcessData.m
+			MatlabScripts\CaSignal_PreProcessData12.m
+			MatlabScripts\CaSignal_Master.m
+			MatlabScripts\CaSignal_MakeFigures.m
+			MatlabScripts\CaSignal_MakeFigures12.m
+			MatlabScripts\CaSignal_MakeContourFigures.m
+			MatlabScripts\CaSignal_MakeContourFigures12.m
+			MatlabScripts\CaSignal_MakeBarFigures.m
+			MatlabScripts\CaSignal_Make2DFigures.m
+			MatlabScripts\CaSignal_Make2DFigures12.m
+			MatlabScripts\CaSignal_KOnKOffTraces.m
+			MatlabScripts\CaSignal_KOnKOff.m
+			MatlabScripts\CaSignal_KdEndoTraces.m
+			MatlabScripts\CaSignal_KdEndo.m
+			MatlabScripts\CaSignal_ExpMain.m
+			MatlabScripts\CaSignal_ExpMain12Ca.m
+			MatlabScripts\CaSignal_ExpMain12b.m
+			MatlabScripts\CaSignal_ExpMain12.m
+			MatlabScripts\CaSignal_ExpB8.m
+			MatlabScripts\CaSignal_Exp8Gb.m
+			MatlabScripts\CaSignal_Exp8G.m
+			MatlabScripts\CaSignal_Exp8A.m
+			MatlabScripts\CaSignal_Exp8A2.m
+			MatlabScripts\CaSignal_Exp8.m
+			MatlabScripts\CaSignal_Exp7C.m
+			MatlabScripts\CaSignal_Exp7A.m
+			MatlabScripts\CaSignal_Exp4D.m
+			MatlabScripts\CaSignal_Exp3Sub8.m
+			MatlabScripts\CaSignal_Exp3Sub6.m
+			MatlabScripts\CaSignal_Exp3Sub4.m
+			MatlabScripts\CaSignal_Exp3Sub3.m
+			MatlabScripts\CaSignal_Exp3Sub2.m
+			MatlabScripts\CaSignal_Exp3Sub1.m
+			MatlabScripts\CaSignal_Exp3.m
+			MatlabScripts\CaSignal_DtGammaII.m
+			MatlabScripts\CaSignal_DtGamma.m
+[Open project files]
+0=Readme.txt
+1=CaSignal_main.par
+2=runcalcscripts.sh
+3=MatlabScripts\CaSignal_Master.m
+4=ZipFigures.bat
+[Selected Project Files]
+Main=
+Selected=Readme.txt
+[Readme.txt]
+TopLine=21
+Caret=45,55
+[CaSignal_main.par]
+TopLine=70
+Caret=1,1
+[runcalcscripts.sh]
+TopLine=25
+Caret=1,19
+[MatlabScripts\CaSignal_Master.m]
+TopLine=1
+Caret=1,1
+[ZipFigures.bat]
+TopLine=1
+Caret=1,1

@@ -1,0 +1,103 @@
+%------------------------------------------------------------------------------------------
+%
+% Title: 	Calcium Signals in Small Structures
+% Filename:	CaSignal_KdEndoDiscTraces.par
+% Author: 	Ronald van Elburg
+% 
+% Associated Paper:
+% Cornelisse LN, van Elburg RAJ, Meredith RM, Yuste R, Mansvelder HD (2007) 
+% High Speed Two-Photon Imaging of Calcium Dynamics in Dendritic Spines: 
+% Consequences for Spine Calcium Kinetics and Buffer Capacity. 
+% PLoS ONE 2(10): e1073 doi:10.1371/journal.pone.0001073%
+%
+%
+%
+%------------------------------------------------------------------------------------------
+Structure			= Disc_Structure
+
+%
+% Parameters for mimicking 1 compartmental model
+%D_Dye		=20
+%D_Calcium	=20
+%D_EndogenousBuffer 			= 20
+
+path = ".\"   		% If running under Windows, specify here the path to the
+                           						% directory containing the script imported below
+file = path "CaSignal_main.par"
+
+include file               						% Import the simulation parameters from the main script
+
+
+% Auxilary variables for monitoring concentrations at different distances from the membrane
+
+	NoOfSteps = 6    % number of shells in the output (NOT IN THE SIMULATION, THERE THE GRIDSIZE DEFINES THE COMPARTMENTS)
+	dR=R_Structure/NoOfSteps
+	
+	
+	R1k=(NoOfSteps-0.5)*dR
+	R2k=(NoOfSteps-1.5)*dR
+	R3k=(NoOfSteps-2.5)*dR
+	R4k=(NoOfSteps-3.5)*dR
+	R5k=(NoOfSteps-4.5)*dR
+	R6k=(NoOfSteps-5.5)*dR
+	
+	CaBoundary:=Ca[R_Source]
+	Ca1 := Ca[R1k] ; Dye1 := Dye[R1k] 	; BndDye1 := Total_Dye-Dye[R1k] 	;EndoB1 := EndogenousBuffer	[R1k]
+	Ca2 := Ca[R2k] ; Dye2 := Dye[R2k] 	; BndDye2 := Total_Dye-Dye[R2k] 	;EndoB2 := EndogenousBuffer	[R2k]
+	Ca3 := Ca[R3k] ; Dye3 := Dye[R3k]  	; BndDye3 := Total_Dye-Dye[R3k]  	;EndoB3 := EndogenousBuffer	[R3k]
+	Ca4 := Ca[R4k] ; Dye4 := Dye[R4k] 	; BndDye4 := Total_Dye-Dye[R4k] 	;EndoB4 := EndogenousBuffer	[R4k]
+	Ca5 := Ca[R5k] ; Dye5 := Dye[R5k] 	; BndDye5 := Total_Dye-Dye[R5k] 	;EndoB5 := EndogenousBuffer	[R5k]
+	Ca6 := Ca[R6k] ; Dye6 := Dye[R6k] 	; BndDye6 := Total_Dye-Dye[R6k] 	;EndoB6 := EndogenousBuffer	[R6k]
+	CaAverage:=Ca[] ; DyeAverage:=Dye[] ; BndDyeAverage:=Total_Dye-Dye[] 	;EndoBAverage := EndogenousBuffer	[]
+
+
+% Exporting the variables defined above to file, the first three variables need 
+% adjustment defining new scripts, to prevent these scripts from overwriting old 
+% results and using the wrong Loop variables, make sure that the LoopVars are 
+% integer version of the real loopvars used in for loops.
+ 
+	Exp='KdEndoTraces'
+	LoopVar=KD_EndogenousBuffer*10
+	LoopVar2=Total_EndogenousBuffer
+	Geom='D' 
+
+  plot point.mute  CaBoundary "Output\Exp""Exp""\CSE""Exp""Geom""_CaBoundary_""LoopVar""_""LoopVar2"
+	plot point.mute  Ca1 "Output\Exp""Exp""\CSE""Exp""Geom""_Ca1_""LoopVar""_""LoopVar2"
+	plot point.mute  Ca2 "Output\Exp""Exp""\CSE""Exp""Geom""_Ca2_""LoopVar""_""LoopVar2"
+	plot point.mute  Ca3 "Output\Exp""Exp""\CSE""Exp""Geom""_Ca3_""LoopVar""_""LoopVar2"
+	plot point.mute  Ca4 "Output\Exp""Exp""\CSE""Exp""Geom""_Ca4_""LoopVar""_""LoopVar2"
+	plot point.mute  Ca5 "Output\Exp""Exp""\CSE""Exp""Geom""_Ca5_""LoopVar""_""LoopVar2"
+	plot point.mute  Ca6 "Output\Exp""Exp""\CSE""Exp""Geom""_Ca6_""LoopVar""_""LoopVar2"
+	plot point.mute  CaAverage "Output\Exp""Exp""\CSE""Exp""Geom""_CaAverage_""LoopVar""_""LoopVar2"
+	
+	plot point.mute  Dye1 "Output\Exp""Exp""\CSE""Exp""Geom""_Dye1_""LoopVar""_""LoopVar2"
+	plot point.mute  Dye2 "Output\Exp""Exp""\CSE""Exp""Geom""_Dye2_""LoopVar""_""LoopVar2"
+	plot point.mute  Dye3 "Output\Exp""Exp""\CSE""Exp""Geom""_Dye3_""LoopVar""_""LoopVar2"
+	plot point.mute  Dye4 "Output\Exp""Exp""\CSE""Exp""Geom""_Dye4_""LoopVar""_""LoopVar2"
+	plot point.mute  Dye5 "Output\Exp""Exp""\CSE""Exp""Geom""_Dye5_""LoopVar""_""LoopVar2"
+	plot point.mute  Dye6 "Output\Exp""Exp""\CSE""Exp""Geom""_Dye6_""LoopVar""_""LoopVar2"
+	plot point.mute  DyeAverage "Output\Exp""Exp""\CSE""Exp""Geom""_DyeAverage_""LoopVar""_""LoopVar2"
+	
+	plot point.mute  EndoB1 "Output\Exp""Exp""\CSE""Exp""Geom""_EndoB1_""LoopVar""_""LoopVar2"
+	plot point.mute  EndoB2 "Output\Exp""Exp""\CSE""Exp""Geom""_EndoB2_""LoopVar""_""LoopVar2"
+	plot point.mute  EndoB3 "Output\Exp""Exp""\CSE""Exp""Geom""_EndoB3_""LoopVar""_""LoopVar2"
+	plot point.mute  EndoB4 "Output\Exp""Exp""\CSE""Exp""Geom""_EndoB4_""LoopVar""_""LoopVar2"
+	plot point.mute  EndoB5 "Output\Exp""Exp""\CSE""Exp""Geom""_EndoB5_""LoopVar""_""LoopVar2"
+	plot point.mute  EndoB6 "Output\Exp""Exp""\CSE""Exp""Geom""_EndoB6_""LoopVar""_""LoopVar2"
+	plot point.mute  EndoBAverage "Output\Exp""Exp""\CSE""Exp""Geom""_EndoBAverage_""LoopVar""_""LoopVar2"
+
+% Parameter variation
+	for Total_EndogenousBuffer = 25 to 1000 step 975
+	for KD_EndogenousBuffer   = 0.5  to 20 step 19.5
+
+
+
+% The adaptive integration method fails for the fast calcium change
+% to overcome this problem we run the first 20 ms with a fixed timestep 
+% of 0.001 ms, then after the fast changes we switch to the adaptive method 
+% for optimal performance.
+
+Run  20.0  1.0e-3 ; current CalciumCurrent
+
+Run  adaptive 480.0  1.0e-3 accuracy; current CalciumCurrent
+

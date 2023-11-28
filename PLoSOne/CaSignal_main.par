@@ -1,0 +1,229 @@
+%------------------------------------------------------------------------------------------
+%
+% Title:    Calcium Signals in Small Structures
+% Filename: CaSignal_main.par
+% Author:  Ronald van Elburg
+% 
+% Associated Paper:
+% Cornelisse LN, van Elburg RAJ, Meredith RM, Yuste R, Mansvelder HD (2007) 
+% High Speed Two-Photon Imaging of Calcium Dynamics in Dendritic Spines: 
+% Consequences for Spine Calcium Kinetics and Buffer Capacity. 
+% PLoS ONE 2(10): e1073 doi:10.1371/journal.pone.0001073
+%
+% Purpose:        
+% To show how the Calcium signal changes in time after an
+% actionpotential and how these timecourses depend on the 
+% distance to the membrane and the membrane morphology which can be 
+% spherical (spine) or cylindrical (dendrite).  
+%
+% History, Background, Related Papers:  
+% This file is developed for CalC 5.0.3
+%
+% Other Files Loaded: none
+% 
+% Associated scripts:
+%   Calc:           
+%   CaSignal_Exp<ExperimentName><GeometryName>.par
+%
+%   Matlab postprocessing:
+%   CaSignal_Exp<ExperimentName>.m
+%
+% Output: 
+% None, this file contains a declarative definition off the model 
+% and its default parameters. The actual simulations are described in other 
+% par-files which include this file.
+%           
+%
+% Remark: Best viewed with tabsize=4 
+%      
+%   
+% Initial Creation Date: 2004-12-01 
+% ChangeNo  Date       ChangedBy            Description of Changes          
+% PR001     2004-12-01  Ronald van Elburg   Creation 
+% PR002     2007-04-23  Ronald van Elburg   Parameters constrained experimentally 
+%-----------------------------------------------------------------------------------
+
+% Meta Parameters:
+% Because CalC language is almost purely declarative, it is possible 
+% to refer forward to the predefined constants when overruling the Structure
+% setting from a script.
+
+    Structure                   = Disc_Structure
+    Sphere_Structure            = 0 
+    Cylinder_Structure          = 1
+    Disc_Structure              = 2
+
+%Numerical accuracy adaptive timestep   
+    accuracy                    = 0.01
+
+
+% Default Parameter Values 
+    %R_Structure                 = 0.57          % Radius of the simulated structure: Cylinder or Sphere (0.57 um)
+    CylinderLengthRadiusRatio   = 2             % Length/Radius of the simulated structure
+    CylinderLength              = CylinderLengthRadiusRatio * R_Structure % CylinderLength (um)
+    HalfCylinderLength          = CylinderLength/2      % HalfCylinderLength (um) needed for positioning Current Source
+    
+    
+    D_Calcium                   = 0.22          % Ca diffusion coefficient              (0.22 um^2/ms based on Allbritton et al. 1992)
+    Background_Ca               = 0.11          % Uniform Initial Calcium Concentration  0.11 uM based on exp this paper
+                                                % (cf. 0.08 uM based on Sabatini et al. 2002)
+        
+    D_EndogenousBuffer          = 0             % Immobile endogenous buffer, diffusion coefficient =0 
+    KPlus_EndogenousBuffer      = 0.5           % Endogenous buffer calcium binding rate (0.5/(ms uM) based on Klingauf,Neher 1997)
+    KD_EndogenousBuffer         = 10            % Endogenous buffer calcium affinity    (10 uM based on Klingauf,Neher 1997, Neher Augustine,1992 )
+    
+    D_Dye           = 0.05                      % Diffusion Constant Mobile Fluorescent Dye (0.05 um^2/ms based on Timmerman Ashley 1986, Wagner, Keizer, 1994)
+    Total_Dye       = 100                       % Total dye concentration (100 uM as in pipette) 
+    KPlus_Dye       = 0.45                      % Fluorescent dye calcium binding rate  (0.45/(ms uM) based on Naraghi 1997) 
+    KD_Dye          = 0.205                     % Fluorescent dye calcium affinity      (0.205 uM Sabatini 2002)
+ 
+    
+    t_actionpotential       = 10                % Centre position of calcium current pulse
+
+% Dendrite and Spine specific parameters, these parameters were
+% determined experimentally or derived from the first parameter scan.
+    if Structure==Disc_Structure
+        % Dendrite specific settings
+        Total_EndogenousBuffer      = 660           % Total endogenous buffer concentration (660 uM, this paper)
+        n_ions                      = 4400          % Number of calcium ions entering with 1 actionpotential (this paper)
+        mingamma_0                  = -0.465        % Extrusion rate (-0.24 uM/ms this paper) 
+        pulselength                 = 1.75          % Width of the calcium current pulse
+        R_Structure                 = 0.61         % Radius of the simulated structure: Cylinder (0.61 um)
+        Sigma                       = 2/R_Structure % For backward compatabiltiy scripts relying on sigma
+    endif
+        
+    if Structure==Cylinder_Structure
+        % Dendrite specific settings
+        Total_EndogenousBuffer      = 660           % Total endogenous buffer concentration (660 uM, this paper)
+        n_ions                      = 4400          % Number of calcium ions entering with 1 actionpotential (this paper)
+        mingamma_0                  = -0.465        % Extrusion rate (-0.49 uM/ms this paper) 
+        pulselength                 = 1.75          % Width of the calcium current pulse
+        R_Structure                 = 0.61         % Radius of the simulated structure: Cylinder (0.61 um)
+        Sigma                       = 2/R_Structure % For backward compatabiltiy scripts relying on sigma
+    endif
+
+    if Structure==Sphere_Structure
+        % Spine specific settings
+        Total_EndogenousBuffer      = 210          % Total endogenous buffer concentration (210 uM, this paper)
+        n_ions                      = 2000          % Number of calcium ions entering with 1 actionpotential (this paper)
+        mingamma_0                  = -0.46         % Extrusion rate (-0.45 uM/ms this paper)
+        pulselength                 = 1.55          % Width of the calcium current pulse
+        R_Structure                 = 0.47          % Radius of the simulated structure: Cylinder (0.47 um)
+        Sigma                       = 3/R_Structure
+    endif
+    
+%Fundamental constants
+    pi      = 3.14159265358979                  % Pi
+    sqrt_of_pi      = 1.77245385090552          % Square root of pi
+    elementaryCharge  = 1.60217733e-19          % Electron charge (1.60217733e-19 C)
+    AvagradoConstant    = 6.00221367e23         % Avagrado's Constant
+    E21OVERAvagrado   = 1e21/AvagradoConstant   % Transformation Factor Used to get Calcium Current in the right units 
+
+% Status Statements
+    verbose = 2                                     % Default level of simulation status statements, 0=silent
+
+% Geometry
+    if Structure==Disc_Structure
+        geometry = disc                             % Cylinder Geometry (2 dimensional)
+        volume 0 R_Structure                        % Inner (0) and outer radius (R_Structure) of the Cylinder
+                            
+        Surface_Structure=2*pi*R_Structure          % Size of the Surface 
+        
+        % Numerics
+        grid 25                                     % Use 25 shells for the computation
+    endif
+        
+    if Structure==Cylinder_Structure
+        geometry = cylindrical                      % Cylinder Geometry (2 dimensional)
+        volume 0 R_Structure  0 CylinderLength      % Inner (0) and outer radius (R_Structure) of the Cylinder
+                                                    % and start (0) and end (CylinderLength) of the cylinder in the Z-direction
+        
+        Surface_Structure=2*pi*R_Structure*CylinderLength % Size of the Surface 
+        
+        % Numerics
+        grid 25 25                                  % Use 25 shells and 25 disks for the computation
+    endif
+    
+    if Structure==Sphere_Structure
+        geometry = spherical                        % Cylinder Geometry (2 dimensional)
+        volume 0 R_Structure                        % Inner (0) and outer radius (R_Structure) of the Sphere
+        Surface_Structure=4*pi*R_Structure*R_Structure % Size of the Surface
+
+        % Numerics
+        grid 25                                     % Use 25 shells for the computation
+    
+    endif
+
+
+
+
+
+% Calcium Diffusion and Sources
+
+    Ca.D   =  D_Calcium                             % this defines the Ca diffusion coefficient (um^2/ms)
+    Ca.bgr =  Background_Ca                         % Initial and Background Ca concentration (uM)
+    % Boundary Conditions
+    bc.define CalciumPump Ca.D mingamma_0 0 0       % A linearized Calcium Pump: Ca.D d[Ca]/dr=mingamma_0([Ca]-[Ca]_background)
+    R_Source=0.99999999*R_Structure                 % Due to rounding errors in the C-code the source may end up outside the structure
+                                                    % , shifting it in a small amount prevents this from happening.
+    
+        if Structure==Disc_Structure
+            % Pump
+            Ca.bc Neumann CalciumPump 
+            
+            % Influx
+            Ca.source R_Source 0 
+        endif
+
+        if Structure==Cylinder_Structure
+            % Pump
+            Ca.bc Neumann CalciumPump Neumann Neumann 
+            
+            % Influx
+            Ca.source R_Source HalfCylinderLength 0 HalfCylinderLength  
+            current.shape square 
+        endif
+    
+        if Structure==Sphere_Structure
+            % Pump
+            Ca.bc Neumann CalciumPump   
+            
+            % Influx
+            Ca.source R_Source  0
+        endif
+    
+    % Calcium Current:
+    CalciumCurrent:= n_ions*Surface_Structure*E21OVERAvagrado/(sqrt_of_pi*pulselength)*exp(-((t-t_actionpotential)/pulselength)^2) 
+            
+        
+% Endogenous Buffer
+    buffer EndogenousBuffer                         % Create Buffer EndogenousBuffer
+    EndogenousBuffer.D    = D_EndogenousBuffer      % Endogenous buffer diffusion coefficient (um^2/ms)
+    
+    EndogenousBuffer.total = Total_EndogenousBuffer % Total endogenous buffer concentration (uM)
+
+    % Binding/Unbinding Rate Constants
+    EndogenousBuffer.kplus = KPlus_EndogenousBuffer % Endogenous buffer calcium binding rate (1/(ms uM))
+    EndogenousBuffer.KD = KD_EndogenousBuffer       % Endogenous buffer calcium affinity (uM)
+    
+    % Boundary Conditions
+    EndogenousBuffer.bc all Neumann                 % No flux of endogeous buffer through the boundary
+    
+% Fluorescent Dye
+    buffer Dye                                      % Create buffer Dye: Oregon Green Bapta-1 fluorescent dye
+    Dye.D    = D_Dye                                % Fluorescent dye diffusion coefficient (um^2/ms)
+    Dye.total = Total_Dye                           % Total dye concentration (uM)
+
+    % Binding/Unbinding Rate Constants
+    Dye.kplus = KPlus_Dye                           % Fluorescent dye calcium binding rate (1/(ms uM))
+    Dye.KD = KD_Dye                                 % Fluorescent dye calcium affinity (uM)
+            
+    % Boundary Conditions
+    Dye.bc all Neumann                              % No flux of dye through the boundary
+
+
+
+
+
+
+

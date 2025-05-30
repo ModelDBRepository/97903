@@ -69,4 +69,4 @@ Steps:
 
 ---
 
-2025-05-30: Standardized to Markdown, and separated sections with proper headings. Maintained original formatting and URLs.
+2025-05-30: Standardized to Markdown
